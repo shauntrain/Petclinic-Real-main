@@ -1,9 +1,8 @@
-FROM maven:3.9-openjdk-21 AS build
-WORKDIR /app
-COPY pom.xml .
-COPY src ./src
-RUN mvn clean package
-
+# Use an official Apache Tomcat image as a base
 FROM tomcat:9.0
-COPY --from=build /app/target/petclinic.war /usr/local/tomcat/webapps/
+
+# Copy the packaged WAR file into the webapps directory of Tomcat
+COPY target/petclinic.war /usr/local/tomcat/webapps/
+
+# Expose port 8080 (Tomcat's default port)
 EXPOSE 8080
